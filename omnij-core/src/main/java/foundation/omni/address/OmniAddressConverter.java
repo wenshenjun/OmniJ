@@ -1,6 +1,7 @@
 package foundation.omni.address;
 
 import org.bitcoinj.core.Address;
+import org.bitcoinj.core.LegacyAddress;
 import org.bitcoinj.params.MainNetParams;
 
 /**
@@ -11,10 +12,10 @@ public class OmniAddressConverter {
     static final MainNetParams btcParams = MainNetParams.get();
 
     static Address btcToOmni(Address btcAddress) {
-        return new Address(omniParams, btcAddress.getHash160());
+        return LegacyAddress.fromPubKeyHash(omniParams, btcAddress.getHash());
     }
 
     static Address omniToBTC(Address omniAddress) {
-        return new Address(btcParams, omniAddress.getHash160());
+        return LegacyAddress.fromPubKeyHash(btcParams, omniAddress.getHash());
     }
 }

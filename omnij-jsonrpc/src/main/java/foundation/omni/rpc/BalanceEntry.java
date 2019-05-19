@@ -23,7 +23,7 @@ public class BalanceEntry implements Iterable<OmniValue>  {
                         @JsonProperty("frozen") OmniValue frozen) {
         this.balance = balance;
         this.reserved = reserved;
-        this.frozen = frozen;
+        this.frozen = (frozen != null) ? frozen : OmniValue.of(0, balance.getPropertyType());
     }
 
     @Override
@@ -35,6 +35,7 @@ public class BalanceEntry implements Iterable<OmniValue>  {
 
         if (balance.compareTo(that.balance) != 0) return false;
         if (reserved.compareTo(that.reserved) != 0) return false;
+        if (frozen.compareTo(that.frozen) != 0) return false;
 
         return true;
     }
@@ -43,6 +44,7 @@ public class BalanceEntry implements Iterable<OmniValue>  {
     public int hashCode() {
         int result = balance.hashCode();
         result = 31 * result + reserved.hashCode();
+        result = 31 * result + frozen.hashCode();
         return result;
     }
 
@@ -65,12 +67,12 @@ public class BalanceEntry implements Iterable<OmniValue>  {
      */
     @Override
     public Iterator<OmniValue> iterator() {
-        return Arrays.asList(balance, reserved).iterator();
+        return Arrays.asList(balance, reserved, frozen).iterator();
     }
 
     @Override
     public String toString() {
-        return "[balance: " + balance + ", reserved: " + reserved + " ]";
+        return "[balance: " + balance + ", reserved: " + reserved + ", frozen: " + frozen + "]";
     }
 
 }
